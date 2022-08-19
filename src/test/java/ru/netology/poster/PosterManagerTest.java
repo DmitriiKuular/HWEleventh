@@ -1,15 +1,17 @@
 package ru.netology.poster;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import ru.netology.repository.PosterRepository;
+import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PosterManagerTest {
 
-    PosterRepository repo = new PosterRepository();
+//    PosterRepository repo = new PosterRepository();
+    PosterRepository repo = Mockito.mock(PosterRepository.class);
     PosterManager manager = new PosterManager(repo);
 
     Films film1 = new Films(11, "Заноза", "Комедия");
@@ -24,23 +26,25 @@ public class PosterManagerTest {
     Films film10 = new Films(101, "Джек", "Боевик");
     Films film11 = new Films(111, "Нос", "Мультфильм");
 
-    @BeforeEach
-    public void setup() {
-        manager.add(film1);
-        manager.add(film2);
-        manager.add(film3);
-        manager.add(film4);
-        manager.add(film5);
-        manager.add(film6);
-        manager.add(film7);
-        manager.add(film8);
-        manager.add(film9);
-        manager.add(film10);
-        manager.add(film11);
-    }
+//    @BeforeEach
+//    public void setup() {
+//        manager.add(film1);
+//        manager.add(film2);
+//        manager.add(film3);
+//        manager.add(film4);
+//        manager.add(film5);
+//        manager.add(film6);
+//        manager.add(film7);
+//        manager.add(film8);
+//        manager.add(film9);
+//        manager.add(film10);
+//        manager.add(film11);
+//    }
 
     @Test
     public void shouldShowLastFilms() {
+        Films[] films = {film1, film2, film3, film4, film5, film6, film7, film8, film9, film10, film11};
+        doReturn(films).when(repo).findAll();
         Films[] expected = {film11, film10, film9, film8, film7, film6, film5, film4, film3, film2};
         Films[] actual = manager.findLast();
 
@@ -50,6 +54,8 @@ public class PosterManagerTest {
     @Test
     public void shouldShowLastEightFilms() {
         PosterManager manager = new PosterManager(repo, 8);
+        Films[] films = {film1, film2, film3, film4, film5, film6, film7, film8, film9, film10, film11};
+        doReturn(films).when(repo).findAll();
         Films[] expected = {film11, film10, film9, film8, film7, film6, film5, film4};
         Films[] actual = manager.findLast();
         assertArrayEquals(expected, actual);
@@ -57,23 +63,11 @@ public class PosterManagerTest {
 
     @Test
     public void shouldShowSevenAddedFilms() {
-        PosterManager manager = new PosterManager(repo);
-        manager.add(film1);
-        manager.add(film2);
-        manager.add(film3);
-        manager.add(film4);
-        manager.add(film5);
-        manager.add(film6);
-        manager.add(film7);
+        Films[] films = {film1, film2, film3, film4, film5, film6, film7};
+        doReturn(films).when(repo).findAll();
         Films[] expected = {film7, film6, film5, film4, film3, film2, film1};
         Films[] actual = manager.findLast();
-        assertArrayEquals(expected, actual);
-    }
 
-    @Test
-    public void shouldShowFilms() {
-        Films[] expected = {film1, film2, film3, film4, film5, film6, film7, film8, film9, film10, film11};
-        Films[] actual = repo.findAll();
         assertArrayEquals(expected, actual);
     }
 }
