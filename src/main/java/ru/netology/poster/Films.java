@@ -3,10 +3,20 @@ package ru.netology.poster;
 public class Films {
     private String filmName;
     private String filmGenre;
+    private int filmId;
 
-    public Films (String filmName, String filmGenre) {
+    public Films(int filmId, String filmName, String filmGenre) {
+        this.filmId = filmId;
         this.filmName = filmName;
         this.filmGenre = filmGenre;
+    }
+
+    public int getFilmId() {
+        return filmId;
+    }
+
+    public void setFilmId(int filmId) {
+        this.filmId = filmId;
     }
 
 //    public String getFilmName() {
